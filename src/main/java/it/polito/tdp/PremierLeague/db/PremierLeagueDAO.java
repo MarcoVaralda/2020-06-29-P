@@ -97,15 +97,16 @@ public class PremierLeagueDAO {
 		String sql = "SELECT m1.MatchID AS m1, m2.MatchID AS m2, COUNT(*) AS peso "
 				+ "FROM matches m1, matches m2, actions a1, actions a2 "
 				+ "WHERE m1.MatchID>m2.MatchID AND a1.MatchID = m1.MatchID AND a2.MatchID=m2.MatchID AND a1.PlayerID=a2.PlayerID "
-				+ "      AND a1.TimePlayed>=? "
+				+ "      AND a1.TimePlayed>=? AND a2.TimePlayed>=? "
 				+ "GROUP BY m1.MatchID, m2.MatchID "
-				+ "HAVING peso>0";
+				+ "HAVING peso>0 ";
 		List<Adiacenza> result = new ArrayList<>();
 		Connection conn = DBConnect.getConnection();
 
 		try {
 			PreparedStatement st = conn.prepareStatement(sql);
 			st.setInt(1, min);
+			st.setInt(2, min);
 			ResultSet res = st.executeQuery();
 			while (res.next()) {
 				Match m1 = idMap.get(res.getInt("m1"));

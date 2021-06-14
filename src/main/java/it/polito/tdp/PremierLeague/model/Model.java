@@ -66,7 +66,7 @@ public class Model {
 		List<Adiacenza> connMax = new LinkedList<>();
 		
 		for(Adiacenza a : this.adiacenze) {
-			if(a.getPeso()==max) {
+			if(a.getPeso()==max && !connMax.contains(a)) {
 				connMax.add(a);
 			}
 			if(a.getPeso()>max) {
